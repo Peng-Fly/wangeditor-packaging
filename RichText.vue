@@ -3,8 +3,6 @@
     <div class="btns-wrapper">
       <div class="button" @click="shwoUploadPanelMethods(true)"><label>插入视频</label></div>
       <div class="button" @click="clear"><label>清空</label></div>
-      <!-- <button @click="getText">获取html文本</button> -->
-      <!-- <button @click="test">test</button> -->
     </div>
     
     <div ref="editor"></div>
@@ -52,17 +50,7 @@
 </template>
 
 <script>
-/**
- * 使用RichText插件方法(保证掺杂在富文本中的脚本能够执行,主要是视频封面代码)
- * let d = document.createElement('div');
-   d.innerHTML = this.data.content;
-   let scripts = d.getElementsByTagName('script')[0].innerText;
-   console.log(scripts);
-   s = document.createElement('script');
-   s.innerHTML = scripts;
-   document.body.appendChild(s);
- * 
- */
+// basePicUrl是上传到OSS上的地址
 import { baseurl, basePicUrl } from "../../api/api.js";
 import E from "wangeditor";
 
@@ -150,7 +138,6 @@ export default {
     // 上传视频
     uploadFile(e, type) {
       // 清空input的file,保证下次能够触发onchange事件
-      console.log(e);
       let temp = e.target.value.split('.');
       let suffix = temp[temp.length - 1];
       let key = "activity/" + new Date().getTime() + '.' + suffix;
@@ -639,57 +626,6 @@ export default {
           imgs[i].style.width = '100%';
         }
       }
-      /*
-      function myOnplay(e) {
-        console.log('play',e);
-        if(e.target.currentTime == 0) {
-          e.target.parentNode.parentNode.children[0].style.opacity = '0';
-          console.log('play',e.target.parentNode.parentNode.children[0]);
-        }
-      }
-      function myOnended(e) {
-        console.log('ended',e);
-        e.target.parentNode.parentNode.children[0].style.opacity = '1';
-        console.log('ended',e.target.parentNode.parentNode.children[0]);
-      }
-      */
-      // var eles = document.getElementsByClassName('my-rich-text-video');
-      // for(var j=0;j<eles.length;j++) {
-      //   var item = eles[j];
-      //   item.onplay = function(e) {
-      //     console.log('play',e);
-      //     if(e.target.currentTime == 0) {
-      //       e.target.parentNode.parentNode.children[0].style.opacity = '0';
-      //       console.log('play',e.target.parentNode.parentNode.children[0]);
-      //     }
-      //   };
-      //   item.onended = function(e) {
-      //     console.log('ended',e);
-      //     e.target.parentNode.parentNode.children[0].style.opacity = '1';
-      //     console.log('ended',e.target.parentNode.parentNode.children[0]);
-      //   };
-      // }
-      // 将函数注册到文档中
-      // let s = document.createElement('script');
-      // s.innerHTML += myOnplay;
-      // s.innerHTML += myOnended;
-      // s.innerHTML += 'var eles = document.getElementsByClassName("my-rich-text-video");'+
-      //                 'for(var j=0;j<eles.length;j++) {'+
-      //                  ' var item = eles[j];'+
-      //                   'item.onplay = function(e) {'+
-      //                       'console.log("play",e);'+
-      //                       'if(e.target.currentTime == 0) {'+
-      //                         'e.target.parentNode.parentNode.children[0].style.opacity = "0";'+
-      //                         'console.log("play",e.target.parentNode.parentNode.children[0]);'+
-      //                       '}'+
-      //                     '};'+
-      //                   'item.onended = function(e) {'+
-      //                    'console.log("ended",e);'+
-      //                    'e.target.parentNode.parentNode.children[0].style.opacity = "1";'+
-      //                    ' console.log("ended",e.target.parentNode.parentNode.children[0]);'+
-      //                   '};'+
-      //                 '}';
-      // ele.appendChild(s);
       return ele.innerHTML;
     },
     // 插入视频
@@ -698,18 +634,6 @@ export default {
         alert('请插入视频');
         return ;
       } 
-      // this.editor.cmd.do('insertHTML',`<div style="width:100%;position:relative;">
-      //   <div style="width:100%; height:100%; position:absolute; left:0px; top:0px">
-      //     <img style="width:100%;height:100%;" src="${this.currentImg}">
-      //   </div>
-      //   <div style="width:100%;">
-      //     <video class="my-rich-text-video" controls name="media" style="width:100%;">
-      //       <source src="${this.currentVideo}">
-      //       您的设备不支持视频播放
-      //     </video>
-      //   </div>
-      //   <div style="clear:both;"></div>
-      // </div><br>`);
       this.editor.cmd.do('insertHTML',`<div style="width:100%;position:relative;">
         <div style="width:100%;">
           <video class="my-rich-text-video" controls name="media" poster="${this.currentImg}" style="width:100%;">
